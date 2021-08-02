@@ -44,7 +44,7 @@ router.post('/', (req, res) => {
   if (!name || !category || !image || !location || !phone || !google_map || !rating || !description) {
     return res.redirect('/restaurants/new')
   }
-  return Restaurant.create(req.body)
+  return Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description, userId })
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
 })
