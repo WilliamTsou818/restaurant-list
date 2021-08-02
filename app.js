@@ -21,6 +21,9 @@ require('./config/mongoose')
 // include routes
 const routes = require('./routes')
 
+// include passport
+const usePassport = require('./config/passport')
+
 // middleware
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -32,6 +35,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+
+// passport
+usePassport(app)
 
 app.use(routes)
 
