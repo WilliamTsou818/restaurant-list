@@ -1,0 +1,31 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body shadow register-form">
+      <h1 class="text-center mt-3 mb-4">Register</h1>
+      <!-- partial message here -->
+      <form action="/users/register" method="POST">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name" value="{{ name }}">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email address" value="{{ email }}">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" value="{{ password }}">
+        </div>
+        <div class="form-group">
+          <label for="comfirmPassword">Comfirm Password</label>
+          <input type="password" name="comfirmPassword" id="comfirmPassword" class="form-control" placeholder="Comfirm your password" value="{{ comfirmPassword }}">
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Register</button>
+        <a href="/auth/facebook" class="btn btn-primary btn-block">Facebook Login</a>
+      </form>
+      <p class="lead mt-4">
+        Have an account? <a href="/users/login">Login</a>
+      </p>
+    </div>
+  </div>
+</div>

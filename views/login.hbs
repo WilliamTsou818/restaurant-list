@@ -1,0 +1,23 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body shadow login-form">
+      <h1 class="text-center mt-3 mb-4">Login</h1>
+      <!-- partial message here -->
+      <form action="/users/login" method="POST">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email address">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password">
+        </div>
+        <button type="submit" class="btn btn-info btn-block">Login</button>
+        <a href="/auth/facebook" class="btn btn-primary btn-block">Facebook Login</a>
+      </form>
+      <p class="lead mt-4">
+        No account? <a href="/users/register">Register here</a>
+      </p>
+    </div>
+  </div>
+</div>

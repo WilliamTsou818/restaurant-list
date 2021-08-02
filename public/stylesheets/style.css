@@ -134,3 +134,13 @@ header {
   margin-bottom: 0;
 }
 
+/* register page and login page */
+.login-form {
+  margin-top: -160px;
+  border: 3px solid #4592af;
+}
+
+.register-form {
+  margin-top: -260px;
+  border: 3px solid #66af45;
+}
