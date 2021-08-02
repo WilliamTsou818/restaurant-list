@@ -56,7 +56,7 @@ router.get('/login', (req, res) => {
   if (error[0] === 'Missing credentials') {
     error[0] = '請輸入 email 與密碼！'
   }
-  res.render('login', { warning_msg: error[0] })
+  res.render('login', { warning_msg: error[0] || res.locals.warning_msg })
 })
 
 router.post('/login', passport.authenticate('local', {
