@@ -52,16 +52,22 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/login', (req, res) => {
-  res.render('login')
+  const error = req.flash('error')
+  if (error[0] === 'Missing credentials') {
+    error[0] = '請輸入 email 與密碼！'
+  }
+  res.render('login', { warning_msg: error[0] })
 })
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/users/login'
+  failureRedirect: '/users/login',
+  failureFlash: true
 }))
 
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('success_msg', '您已成功登出！')
   res.redirect('/users/login')
 })
 

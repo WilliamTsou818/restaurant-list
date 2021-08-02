@@ -3,6 +3,7 @@
     <div class="card card-body shadow login-form">
       <h1 class="text-center mt-3 mb-4">Login</h1>
       <!-- partial message here -->
+      {{> message}}
       <form action="/users/login" method="POST">
         <div class="form-group">
           <label for="email">Email</label>
