@@ -4,8 +4,13 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const session = require('express-session')
 
+// include dotenv
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT
 
 // set view templates
 app.engine('hbs', exphbs({
@@ -31,7 +36,7 @@ app.use(methodOverride('_method'))
 
 // session
 app.use(session({
-  secret: 'MyRestaurantSecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
