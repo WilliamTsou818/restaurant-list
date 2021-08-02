@@ -15,10 +15,10 @@ router.get('/searches', (req, res) => {
     category: { category: 'asc' },
     location: { location: 'asc' }
   }
-  Restaurant.find()
+  Restaurant.find({ userId: req.user._id })
     .lean()
     .sort(sortMongoose[currentSortOption])
-    .then((restaurants) => {
+    .then(restaurants => {
       if (keyword) {
         restaurants = restaurants.filter((restaurant) =>
           restaurant.name.toLowerCase().includes(keyword) ||
@@ -30,7 +30,7 @@ router.get('/searches', (req, res) => {
       }
       res.render('index', { restaurants, sortData, currentSortOption, searchInput })
     })
-    .catch((error) => console.error(error))
+    .catch(error => console.error(error))
 })
 
 // create route
@@ -40,29 +40,32 @@ router.get('/new', (req, res) => {
 
 router.post('/', (req, res) => {
   const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+  const userId = req.user._id
   if (!name || !category || !image || !location || !phone || !google_map || !rating || !description) {
     return res.redirect('/restaurants/new')
   }
-  return Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description })
+  return Restaurant.create(req.body)
     .then(() => res.redirect('/'))
-    .catch((error) => console.error(error))
+    .catch(error => console.error(error))
 })
 
 // edit route
 router.get('/:id/edit', (req, res) => {
-  const id = req.params.id
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
-  return Restaurant.findById(id)
+  const _id = req.params.id
+  const userId = req.user._id
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.redirect('back')
+  return Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurant => res.render('edit', { restaurant }))
     .catch(error => console.error(error))
 })
 
 router.put('/:id', (req, res) => {
-  const id = req.params.id
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
+  const _id = req.params.id
+  const userId = req.user._id
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.redirect('back')
   const modifiedRestaurant = req.body
-  return Restaurant.findById(id)
+  return Restaurant.findOne({ _id, userId })
     .then(restaurant => {
       restaurant.name = modifiedRestaurant.name
       restaurant.name_en = modifiedRestaurant.name_en
@@ -75,26 +78,28 @@ router.put('/:id', (req, res) => {
       restaurant.description = modifiedRestaurant.description
       return restaurant.save()
     })
-    .then(() => res.redirect(`/restaurants/${id}`))
+    .then(() => res.redirect(`/restaurants/${_id}`))
     .catch(error => console.error(error))
 })
 
 // detail route
 router.get('/:id', (req, res) => {
-  const id = req.params.id
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
-  return Restaurant.findById(id)
+  const _id = req.params.id
+  const userId = req.user._id
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.redirect('back')
+  return Restaurant.findOne({ _id, userId })
     .lean()
-    .then((restaurant) => res.render('detail', { restaurant }))
-    .catch((error) => console.error(error))
+    .then(restaurant => res.render('detail', { restaurant }))
+    .catch(error => console.error(error))
 })
 
 // delete route
 router.delete('/:id', (req, res) => {
-  const id = req.params.id
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
-  return Restaurant.findById(id)
-    .then((restaurant) => restaurant.remove())
+  const _id = req.params.id
+  const userId = req.user._id
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.redirect('back')
+  return Restaurant.findOne({ _id, userId })
+    .then(restaurant => restaurant.remove())
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
 })
